@@ -5,15 +5,17 @@ import (
 	"strings"
 )
 
-func main() {
-	var conferenceName string = "Go Conference"
-	const conferenceTickets int = 50
-	var remainingTickets uint = 50
+// Package level variables
+// Think of them like constants in ruby
+var conferenceName string = "Go Conference"
+const conferenceTickets int = 50
+var remainingTickets uint = 50
+var bookings = []string{}
 
-	greetUsers(conferenceTickets, remainingTickets, conferenceName)
+func main() {
+	greetUsers()
 
 	// Setting a slice. Slices are like arrays in ruby
-	var bookings = []string{}
 
 	// while loop
 	for remainingTickets > 0 {
@@ -23,12 +25,12 @@ func main() {
 			bookings = append(bookings, firstName+" "+lastName)
 			remainingTickets = remainingTickets - userTickets
 
-			bookingStats(bookings)
+			bookingStats()
 
 			fmt.Printf("Thank you %v %v for booking %v ticket you will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-			var firstNames = firstNames(bookings)
+			var firstNames = firstNames()
 			fmt.Printf("first name of bookings %v\n", firstNames)
 
 		} else {
@@ -38,7 +40,7 @@ func main() {
 	fmt.Println("Our conference is booked out. Come back next year")
 }
 
-func greetUsers(conferenceTickets int, remainingTickets uint, conferenceName string) {
+func greetUsers() {
 	fmt.Printf("conferenceTickets is %T, remainingTickets is %T conferenceName is %T\n", conferenceTickets, remainingTickets, conferenceName)
 
 	fmt.Printf("Welcome to our %v booking application!\n", conferenceName)
@@ -47,14 +49,14 @@ func greetUsers(conferenceTickets int, remainingTickets uint, conferenceName str
 
 }
 
-func bookingStats(bookings []string) {
+func bookingStats() {
 	fmt.Printf("The whole slice %v\n", bookings)
 	fmt.Printf("First value: %v\n", bookings[0])
 	fmt.Printf("Slice type: %T\n", bookings)
 	fmt.Printf("Slice length: %v\n", len(bookings))
 }
 
-func firstNames(bookings []string) []string {
+func firstNames() []string {
 	var firstNames = []string{}
 	// For loop
 	for _, booking := range bookings {
