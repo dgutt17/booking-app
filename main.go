@@ -10,11 +10,7 @@ func main() {
 	const conferenceTickets int = 50
 	var remainingTickets uint = 50
 
-	fmt.Printf("conferenceTickets is %T, remainingTickets is %T conferenceName is %T\n", conferenceTickets, remainingTickets, conferenceName)
-
-	fmt.Printf("Welcome to our %v booking application!\n", conferenceName)
-	fmt.Printf("We have a total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
-	fmt.Println("Get your tickets here to attend.")
+	greetUsers(conferenceTickets, remainingTickets, conferenceName)
 
 	// Setting array with values
 	// var bookings = [50]string{"Dan", "Sam", "Brian"}
@@ -26,8 +22,7 @@ func main() {
 	var bookings = []string{}
 
 	// while loop
-	// specifically while true
-	for {
+	for remainingTickets > 0 {
 		var firstName string
 		var lastName string
 		var email string
@@ -45,28 +40,54 @@ func main() {
 		fmt.Print("Enter the number of tickets you want: ")
 		fmt.Scan(&userTickets)
 
-		bookings = append(bookings, firstName+" "+lastName)
-		remainingTickets = remainingTickets - userTickets
+		// if userTickets > remainingTickets {
+		// 	fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
+		// 	continue
+		// }
 
-		// fmt.Printf("The whole array %v\n", bookings)
-		// fmt.Printf("First value: %v\n", bookings[0])
-		// fmt.Printf("Array type: %T\n", bookings)
-		// fmt.Printf("Array length: %v\n", len(bookings))
+		if userTickets <= remainingTickets {
+			bookings = append(bookings, firstName+" "+lastName)
+			remainingTickets = remainingTickets - userTickets
 
-		// fmt.Printf("The whole slice %v\n", bookings)
-		// fmt.Printf("First value: %v\n", bookings[0])
-		// fmt.Printf("Slice type: %T\n", bookings)
-		// fmt.Printf("Slice length: %v\n", len(bookings))
+			// fmt.Printf("The whole array %v\n", bookings)
+			// fmt.Printf("First value: %v\n", bookings[0])
+			// fmt.Printf("Array type: %T\n", bookings)
+			// fmt.Printf("Array length: %v\n", len(bookings))
 
-		fmt.Printf("Thank you %v %v for booking %v ticket you will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+			// fmt.Printf("The whole slice %v\n", bookings)
+			// fmt.Printf("First value: %v\n", bookings[0])
+			// fmt.Printf("Slice type: %T\n", bookings)
+			// fmt.Printf("Slice length: %v\n", len(bookings))
 
-		var firstNames = []string{}
-		// For loop
-		for _, booking := range bookings {
-			var name = strings.Fields(booking)
-			firstNames = append(firstNames, name[0])
+			fmt.Printf("Thank you %v %v for booking %v ticket you will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+
+			var firstNames = []string{}
+			// For loop
+			for _, booking := range bookings {
+				// this turns the element into a string?
+				var name = strings.Fields(booking)
+				firstNames = append(firstNames, name[0])
+			}
+			fmt.Printf("first name of bookings %v\n", firstNames)
+
+			// if remainingTickets == 0 {
+			// 	fmt.Println("Our conference is booked out. Come back next year")
+			// 	break
+			// }
+
+		} else {
+			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
 		}
-		fmt.Printf("first name of bookings %v\n", firstNames)
 	}
+	fmt.Println("Our conference is booked out. Come back next year")
+}
+
+func greetUsers(conferenceTickets int, remainingTickets uint, conferenceName string) {
+	fmt.Printf("conferenceTickets is %T, remainingTickets is %T conferenceName is %T\n", conferenceTickets, remainingTickets, conferenceName)
+
+	fmt.Printf("Welcome to our %v booking application!\n", conferenceName)
+	fmt.Printf("We have a total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
+	fmt.Println("Get your tickets here to attend.")
+
 }
