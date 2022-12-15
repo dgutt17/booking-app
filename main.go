@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	// "strings"
 	"booking-app/helper"
+	"strconv"
 )
 
 // Package level variables
@@ -11,7 +12,12 @@ import (
 var conferenceName string = "Go Conference"
 const conferenceTickets int = 50
 var remainingTickets uint = 50
-var bookings = []string{}
+
+// slice of strings
+// var bookings = []string{}
+
+// slice of maps
+var bookings = make([]map[string]string, 0)
 
 func main() {
 	greetUsers()
@@ -23,8 +29,20 @@ func main() {
 		firstName, lastName, email, userTickets := helper.InputValues()
 
 		if userTickets <= remainingTickets {
-			bookings = append(bookings, firstName+" "+lastName)
 			remainingTickets = remainingTickets - userTickets
+			
+			// map[key_type]value_type
+			// empty map
+			var userData = make(map[string]string)
+			
+			userData["firstName"] = firstName
+			userData["lastName"] = lastName
+			userData["email"] = email
+			// Converting uint to string
+			userData["userTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+			
+			// bookings = append(bookings, firstName+" "+lastName)
+			bookings = append(bookings, userData)
 
 			bookingStats()
 
@@ -33,6 +51,8 @@ func main() {
 
 			var firstNames = firstNames()
 			fmt.Printf("first name of bookings %v\n", firstNames)
+
+			fmt.Printf("Current Bookings %v\n", bookings)
 
 		} else {
 			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
@@ -57,13 +77,22 @@ func bookingStats() {
 	fmt.Printf("Slice length: %v\n", len(bookings))
 }
 
+// func firstNames() []string {
+// 	var firstNames = []string{}
+// 	// For loop
+// 	for _, booking := range bookings {
+// 		// this turns the element into a string?
+// 		var name = strings.Fields(booking)
+// 		firstNames = append(firstNames, name[0])
+// 	}
+// 	return firstNames
+// }
+
 func firstNames() []string {
 	var firstNames = []string{}
 	// For loop
 	for _, booking := range bookings {
-		// this turns the element into a string?
-		var name = strings.Fields(booking)
-		firstNames = append(firstNames, name[0])
+		firstNames = append(firstNames, booking["firstName"])
 	}
 	return firstNames
 }
