@@ -4,20 +4,32 @@ import (
 	"fmt"
 	// "strings"
 	"booking-app/helper"
-	"strconv"
+	// "strconv"
 )
 
 // Package level variables
 // Think of them like constants in ruby
 var conferenceName string = "Go Conference"
+
 const conferenceTickets int = 50
+
 var remainingTickets uint = 50
 
 // slice of strings
 // var bookings = []string{}
 
 // slice of maps
-var bookings = make([]map[string]string, 0)
+// var bookings = make([]map[string]string, 0)
+
+// slice of UserData structs
+var bookings = make([]UserData, 0)
+
+type UserData struct {
+	firstName   string
+	lastName    string
+	email       string
+	userTickets uint
+}
 
 func main() {
 	greetUsers()
@@ -30,17 +42,26 @@ func main() {
 
 		if userTickets <= remainingTickets {
 			remainingTickets = remainingTickets - userTickets
-			
+
 			// map[key_type]value_type
 			// empty map
-			var userData = make(map[string]string)
-			
-			userData["firstName"] = firstName
-			userData["lastName"] = lastName
-			userData["email"] = email
-			// Converting uint to string
-			userData["userTickets"] = strconv.FormatUint(uint64(userTickets), 10)
-			
+			// var userData = make(map[string]string)
+
+			// userData["firstName"] = firstName
+			// userData["lastName"] = lastName
+			// userData["email"] = email
+			// // Converting uint to string
+			// userData["userTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+
+			var userData = UserData{
+				firstName: firstName,
+				lastName:  lastName,
+				email:     email,
+				// userTickets: userTickets,
+			}
+
+			userData.userTickets = userTickets
+
 			// bookings = append(bookings, firstName+" "+lastName)
 			bookings = append(bookings, userData)
 
@@ -88,11 +109,21 @@ func bookingStats() {
 // 	return firstNames
 // }
 
+// Map firstNames
+// func firstNames() []string {
+// 	var firstNames = []string{}
+// 	// For loop
+// 	for _, booking := range bookings {
+// 		firstNames = append(firstNames, booking["firstName"])
+// 	}
+// 	return firstNames
+// }
+
 func firstNames() []string {
 	var firstNames = []string{}
 	// For loop
 	for _, booking := range bookings {
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 	return firstNames
 }
