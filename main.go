@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"booking-app/helper"
 )
 
 // Package level variables
@@ -19,7 +20,7 @@ func main() {
 
 	// while loop
 	for remainingTickets > 0 {
-		firstName, lastName, email, userTickets := inputValues()
+		firstName, lastName, email, userTickets := helper.InputValues()
 
 		if userTickets <= remainingTickets {
 			bookings = append(bookings, firstName+" "+lastName)
@@ -65,26 +66,4 @@ func firstNames() []string {
 		firstNames = append(firstNames, name[0])
 	}
 	return firstNames
-}
-
-func inputValues() (string, string, string, uint) {
-	var firstName string
-	var lastName string
-	var email string
-	var userTickets uint
-
-	// ask user for their name
-	fmt.Print("Enter your first name: ")
-	fmt.Scan(&firstName)
-
-	fmt.Print("Enter your last name: ")
-	fmt.Scan(&lastName)
-
-	fmt.Print("Enter your email: ")
-	fmt.Scan(&email)
-
-	fmt.Print("Enter the number of tickets you want: ")
-	fmt.Scan(&userTickets)
-
-	return firstName, lastName, email, userTickets
 }
