@@ -1,10 +1,13 @@
 package main
 
 import (
-	"fmt"
-	// "strings"
 	"booking-app/helper"
+	"fmt"
+	"runtime"
+	"sync"
+	"time"
 	// "strconv"
+	// "strings"
 )
 
 // Package level variables
@@ -32,7 +35,13 @@ type UserData struct {
 	userTickets uint
 }
 
+// This object allows you to control when threads are terminated
+var wg = sync.WaitGroup{}
+
+
+
 func main() {
+	fmt.Printf("Number of goroutines: %v\n",runtime.NumGoroutine())
 	greetUsers()
 
 	// Setting a slice. Slices are like arrays in ruby
@@ -71,6 +80,12 @@ func main() {
 			fmt.Printf("Thank you %v %v for booking %v ticket you will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
+			// This increments the number of threads that the main thread should wait for.
+			// wg.Add(1)
+
+			// this is how you create threads
+			// go sendTicket(userTickets, firstName, lastName, email)
+
 			var firstNames = firstNames()
 			fmt.Printf("first name of bookings %v\n", firstNames)
 
@@ -81,6 +96,9 @@ func main() {
 		}
 	}
 	fmt.Println("Our conference is booked out. Come back next year")
+
+	// This tells the main thread to wait for other threads
+	// wg.Wait()
 }
 
 func greetUsers() {
@@ -97,6 +115,11 @@ func bookingStats() {
 	fmt.Printf("First value: %v\n", bookings[0])
 	fmt.Printf("Slice type: %T\n", bookings)
 	fmt.Printf("Slice length: %v\n", len(bookings))
+}
+
+
+func execute() {
+	time.Sleep(time.Second * 10)
 }
 
 // func firstNames() []string {
@@ -127,4 +150,15 @@ func firstNames() []string {
 		firstNames = append(firstNames, booking.firstName)
 	}
 	return firstNames
+}
+
+func sendTicket(userTickets uint, firstName string, lastName string, email string) {
+	time.Sleep(50 * time.Second)
+	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
+	fmt.Println("######################")
+	fmt.Printf("Sending ticket:\n %v to email address %v\n", ticket, email)
+	fmt.Println("######################")
+
+	// this tells the current thread to decrease the number of threads the main thread is waiting for
+	wg.Done()
 }
