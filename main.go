@@ -24,6 +24,7 @@ var remainingTickets uint = 50
 // slice of UserData structs
 var bookings = make([]UserData, 0)
 
+// like structs in ruby
 type UserData struct {
 	firstName   string
 	lastName    string
